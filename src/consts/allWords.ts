@@ -12974,3 +12974,5 @@ export const ALL_WORDS = [
   'ZYMES',
   'ZYMIC',
 ];
+
+export const ALL_WORDS_SET = new Set(ALL_WORDS);

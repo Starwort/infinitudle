@@ -1,8 +1,11 @@
+import {ALL_WORDS} from "./consts/allWords";
+import {STARTER_WORDS} from "./consts/starterWords";
+
 /** Function for sampling from an array
  *
  * Taken from https://stackoverflow.com/a/54160546
  */
-export function sample<T>(array: T[], size: number): T[] {
+function sample<T>(array: T[], size: number): T[] {
     const results: T[] = [];
     const sampled: Record<number, boolean> = {};
     while (results.length < size && results.length < array.length) {
@@ -15,15 +18,23 @@ export function sample<T>(array: T[], size: number): T[] {
     return results;
 }
 
+export function sampleStarterWords(): string[] {
+    return sample(STARTER_WORDS, 64);
+}
+
 /** Pick a random element of an array, avoiding a certain set of elements
  */
-export function pick_random<T>(array: T[], avoid: T[] = []): T[] {
+function pickRandom<T>(array: T[], avoid: T[] = []): T {
     while (true) {
         const index = Math.trunc(Math.random() * array.length);
         if (!avoid.includes(array[index])) {
-            return [array[index]];
+            return array[index];
         }
     }
+}
+
+export function getNextWord(guesses: string[]): string {
+    return pickRandom(ALL_WORDS, guesses);
 }
 
 export enum LetterGrade {
