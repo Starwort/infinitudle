@@ -44,11 +44,9 @@ export enum LetterGrade {
     GREEN,
 }
 
-type Five<T> = [T, T, T, T, T];
+export type Five<T> = [T, T, T, T, T];
 
-function zip<T, U>(a: T[], b: U[]): IterableIterator<[T, U]>;
-function zip(a: string, b: string): IterableIterator<[string, string]>;
-function* zip(a: any, b: any): any {
+export function* zip<T, U>(a: ArrayLike<T>, b: ArrayLike<U>): IterableIterator<[T, U]> {
     for (let i = 0; i < Math.min(a.length, b.length); i++) {
         yield [a[i], b[i]];
     }
@@ -65,24 +63,45 @@ function* enumerate(iter: any): any {
 
 /** Grade word guess */
 export function grade(guess: string, answer: string): Five<LetterGrade> {
-    const grades: Five<LetterGrade> = [LetterGrade.BLACK, LetterGrade.BLACK, LetterGrade.BLACK, LetterGrade.BLACK, LetterGrade.BLACK];
+    const grades: Five<LetterGrade> = [
+        LetterGrade.BLACK,
+        LetterGrade.BLACK,
+        LetterGrade.BLACK,
+        LetterGrade.BLACK,
+        LetterGrade.BLACK,
+    ];
     const graded: Five<boolean> = [false, false, false, false, false];
+
     for (const [i, [guessed, real]] of enumerate(zip(guess, answer))) {
         if (guessed === real) {
             grades[i] = LetterGrade.GREEN;
             graded[i] = true;
         }
     }
-    for (const [i, guessed] of enumerate(guess)) {
-        const found = [...answer]
-            .map<[string, number]>((v, j) => [v, j])
-            .filter(([_, j]) => !graded[j])
-            .find(([v, _]) => v === guessed);
-        if (found) {
-            const pos = found[1];
-            grades[i] = LetterGrade.YELLOW;
-            graded[pos] = true;
+
+    for (const [i, [guessed, real]] of enumerate(zip(guess, answer))) {
+        if (guessed !== real) {
+            const found = [...answer]
+                .map<[string, number]>((v, j) => [v, j])
+                .find(([v, j]) => (
+                    !graded[j] &&
+                    v === guessed
+                ));
+            if (found) {
+                const pos = found[1];
+                grades[i] = LetterGrade.YELLOW;
+                graded[pos] = true;
+            }
         }
     }
     return grades;
+}
+
+export type KeyboardLayout = "qwerty";
+
+export enum FontSize {
+    SMALL,
+    MEDIUM,
+    LARGE,
+    EXTRA_LARGE,
 }

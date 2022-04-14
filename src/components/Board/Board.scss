@@ -1,0 +1,54 @@
+.board {
+    display: grid;
+    grid-template-areas:
+        "left right"
+        "keyboard keyboard";
+    margin: 1em auto;
+    transition: max-height 0s ease-in-out calc(8 * var(--app-animation-timing)),
+        order 0s ease-in-out calc(8 * var(--app-animation-timing)),
+        scale calc(2 * var(--app-animation-timing)) ease-in-out
+            calc(5 * var(--app-animation-timing));
+}
+
+.danger {
+    animation: danger-flash calc(4 * var(--app-animation-timing)) ease-in-out 0s
+        infinite;
+}
+
+@keyframes danger-flash {
+    0% {
+        background-color: var(--app-danger-red);
+    }
+
+    50% {
+        background-color: transparent;
+    }
+
+    100% {
+        background-color: var(--app-danger-red);
+    }
+}
+
+.complete {
+    order: 100;
+    max-height: 0;
+    scale: 0;
+}
+
+.keyboard {
+    grid-area: keyboard;
+    margin: auto;
+    display: grid;
+    grid-template-areas:
+        "q q q q w w w w e e e e r r r r t t t t y y y y u u u u i i i i o o o o p p p p"
+        "A a a a a s s s s d d d d f f f f g g g g h h h h j j j j k k k k l l l l C C C"
+        "B B B z z z z x x x x c c c c v v v v b b b b n n n n m m m m D D D D D D D D D";
+}
+
+@each $char
+    in (a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y, z)
+{
+    .app-keyboard-qwerty .keyboard-#{$char} {
+        grid-area: $char;
+    }
+}

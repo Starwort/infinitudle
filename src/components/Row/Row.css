@@ -1,0 +1,109 @@
+.row {
+    display: flex;
+    flex-direction: row;
+    margin: 2px;
+}
+
+.cell {
+    width: 1.5em;
+    height: 1.5em;
+    border: 1px solid var(--app-ui-border);
+    text-align: center;
+    text-transform: capitalize;
+    font-weight: bold;
+}
+
+.black {
+    background-color: var(--app-guess-black);
+}
+
+.yellow {
+    background-color: var(--app-guess-yellow);
+}
+
+.green {
+    background-color: var(--app-guess-green);
+}
+
+.graded .cell {
+    animation-name: flip;
+    animation-duration: var(--app-animation-timing);
+    animation-timing-function: ease-in-out;
+    animation-iteration-count: 1;
+}
+
+.invalid {
+    animation-duration: var(--app-animation-timing);
+    animation-timing-function: ease-in-out;
+    animation-iteration-count: 1;
+    animation-name: shake;
+}
+
+.invalid .cell {
+    color: var(--app-guess-invalid);
+}
+
+.row :nth-child(1).cell {
+    animation-delay: 0s;
+    transition: background-color 0s calc(var(--app-animation-timing) * 0.5);
+}
+
+.row :nth-child(2).cell {
+    animation-delay: var(--app-animation-timing);
+    transition: background-color 0s calc(var(--app-animation-timing) * 1.5);
+}
+
+.row :nth-child(3).cell {
+    animation-delay: calc(var(--app-animation-timing) * 2);
+    transition: background-color 0s calc(var(--app-animation-timing) * 2.5);
+}
+
+.row :nth-child(4).cell {
+    animation-delay: calc(var(--app-animation-timing) * 3);
+    transition: background-color 0s calc(var(--app-animation-timing) * 3.5);
+}
+
+.row :nth-child(5).cell {
+    animation-delay: calc(var(--app-animation-timing) * 4);
+    transition: background-color 0s calc(var(--app-animation-timing) * 4.5);
+}
+
+@keyframes flip {
+    0% {
+        transform: rotateX(0turn);
+    }
+
+    25% {
+        transform: rotateX(0.125turn);
+    }
+
+    50% {
+        transform: rotateX(0.25turn);
+    }
+
+    75% {
+        transform: rotateX(0.125turn);
+    }
+
+    100% {
+        transform: rotateX(0turn);
+    }
+}
+
+@keyframes shake {
+    0% {
+        transform: translateX(0em);
+    }
+
+    25% {
+        transform: translateX(0.5em);
+    }
+
+    75% {
+        transform: translateX(-0.5em);
+    }
+
+    100% {
+        transform: translateX(0em);
+    }
+}

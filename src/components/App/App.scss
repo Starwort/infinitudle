@@ -1,0 +1,105 @@
+.app-header {
+    position: sticky;
+    background-color: var(--app-ui-raised-surface);
+    top: 0;
+    z-index: 1;
+}
+
+.app-header-content {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    margin: auto;
+    height: 4em;
+    max-width: 1200px;
+}
+
+.padding {
+    flex-grow: 1;
+}
+
+.boards {
+    display: grid;
+    margin: 10px 0 0 0;
+    padding: 0 0 10px 0;
+}
+
+@for $boards from 1 to 16 {
+    @media (min-width: (480px * $boards)) {
+        .app-font-extra_large .boards {
+            grid-template-columns: repeat($boards, 1fr);
+        }
+    }
+    @media (min-width: (330px * $boards)) {
+        .app-font-large .boards {
+            grid-template-columns: repeat($boards, 1fr);
+        }
+    }
+    @media (min-width: (255px * $boards)) {
+        .app-font-medium .boards {
+            grid-template-columns: repeat($boards, 1fr);
+        }
+    }
+    @media (min-width: (180px * $boards)) {
+        .app-font-small .boards {
+            grid-template-columns: repeat($boards, 1fr);
+        }
+    }
+}
+
+a {
+    color: var(--app-ui-text);
+    font-weight: bold;
+}
+
+.app-dark {
+    --app-ui-surface: #121212;
+    --app-ui-text: #ffffff;
+    --app-ui-raised-surface: #242424;
+    --app-ui-border: rgba(255, 255, 255, 0.5);
+    --app-ui-highlight: rgba(255, 255, 255, 0.1);
+    --app-guess-invalid: red;
+    --app-guess-black: #242424;
+    --app-guess-yellow: #7f5f00;
+    --app-guess-green: #007f00;
+    --app-danger-red: #7f0000;
+    --app-danger-yellow: #7f7f00;
+    --app-animation-timing: 0.5s;
+}
+
+.app-light {
+    --app-ui-surface: #eeeeee;
+    --app-ui-text: #000000;
+    --app-ui-raised-surface: #ffffff;
+    --app-ui-border: rgba(0, 0, 0, 0.5);
+    --app-ui-highlight: rgba(0, 0, 0, 0.1);
+    --app-guess-invalid: #7f0000;
+    --app-guess-black: #7f7f7f;
+    --app-guess-yellow: gold;
+    --app-guess-green: green;
+    --app-animation-timing: 0.5s;
+    --app-danger-red: #ff0000;
+    --app-danger-yellow: #ffff00;
+}
+
+.app {
+    background-color: var(--app-ui-surface);
+    color: var(--app-ui-text);
+}
+
+.app-font-small {
+    font-size: 10px;
+}
+
+.app-font-medium {
+    font-size: 15px;
+}
+
+.app-font-large {
+    font-size: 20px;
+}
+
+.app-font-extra_large {
+    font-size: 30px;
+}

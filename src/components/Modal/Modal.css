@@ -1,0 +1,50 @@
+body.noscroll {
+    overflow: hidden;
+}
+
+.modal-scrim {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 100;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal {
+    position: fixed;
+    top: calc(10vh - 1px);
+    left: 33%;
+    width: 33%;
+    background: var(--app-ui-raised-surface);
+    z-index: 200;
+    border: 1px solid var(--app-ui-border);
+    border-radius: 1em;
+}
+
+.modal-content {
+    padding: 1em 2em 2em 2em;
+}
+
+.modal-header {
+    display: grid;
+    grid-template-columns: 3em 1fr 3em;
+    grid-template-areas: "_ title close";
+    padding: 0.5em;
+    margin-top: -1em;
+    width: 100%;
+}
+
+.modal-title {
+    grid-area: title;
+    text-align: center;
+}
+
+.close-button {
+    grid-area: close;
+    border: none;
+}
