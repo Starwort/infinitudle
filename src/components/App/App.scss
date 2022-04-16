@@ -31,7 +31,7 @@
 
 @for $boards from 1 to 16 {
     @media (min-width: (520px * $boards)) {
-        .app-font-modal-active .boards {
+        .app-font-extra_large .boards {
             grid-template-columns: repeat($boards, 1fr);
         }
     }
@@ -104,7 +104,7 @@ a {
     font-size: 20px;
 }
 
-.app-font-modal-active {
+.app-font-extra_large {
     font-size: 30px;
 }
 
