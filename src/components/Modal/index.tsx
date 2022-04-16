@@ -1,5 +1,6 @@
 import React from "react";
 import {IconButton} from "..";
+import {Theme} from "../../util";
 import closeBlack from "./close_black.svg";
 import closeWhite from "./close_white.svg";
 import "./Modal.css";
@@ -14,7 +15,7 @@ interface ModalProps {
     /** Callback that closes the modal */
     onClose: () => void;
     /** Which theme the app is currently in */
-    theme: "light" | "dark";
+    theme: Theme;
 }
 
 export function Modal({title, children, open, onClose, theme}: ModalProps) {

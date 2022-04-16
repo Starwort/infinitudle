@@ -1,7 +1,7 @@
 import React from "react";
 import {Board, IconButton, SettingsModal} from "..";
 import {ALL_WORDS_SET} from "../../consts/allWords";
-import {AnimationSpeed, FontSize, getNextWord, KeyboardLayout, sampleStarterWords} from "../../util";
+import {AnimationSpeed, FontSize, GameState, getNextWord, KeyboardLayout, sampleStarterWords, Theme} from "../../util";
 import {Modal} from "../Modal";
 import aboutIconBlack from "./about_icon_black.svg";
 import aboutIconWhite from "./about_icon_white.svg";
@@ -10,11 +10,11 @@ import settingsIconBlack from "./settings_icon_black.svg";
 import settingsIconWhite from "./settings_icon_white.svg";
 
 export function App() {
-    const [words, setWords] = React.useState<string[]>([]);
-    const [word, setWord] = React.useState("");
+    const [guessedWords, setGuessedWords] = React.useState<string[]>([]);
+    const [currentWord, setCurrentWord] = React.useState("");
     const [secretWords, setSecretWords] = React.useState(sampleStarterWords());
     const [cleared, setCleared] = React.useState(0);
-    const [theme, setTheme] = React.useState<"light" | "dark">("dark");
+    const [theme, setTheme] = React.useState<Theme>(Theme.DARK);
     const [isGameOver, setIsGameOver] = React.useState(false);
     const [settingsOpen, setSettingsOpen] = React.useState(false);
     const [aboutOpen, setAboutOpen] = React.useState(false);
@@ -22,18 +22,17 @@ export function App() {
     const [animationSpeed, setAnimationSpeed] = React.useState(AnimationSpeed.MEDIUM);
     const [
         keyboardLayout, setKeyboardLayout
-    ] = React.useState<KeyboardLayout>("qwerty");
+    ] = React.useState<KeyboardLayout>(KeyboardLayout.QWERTY);
 
-    const gameState = React.useRef({
-        word,
-        words,
+    const gameState = React.useRef<GameState & {currentWord: string;}>({
+        currentWord,
+        guessedWords,
         secretWords,
         foundSecretWords: new Map<string, number>(),
-        guesses: 0,
         boards: new Map<string, number>(secretWords.map(secretWord => [secretWord, 0])),
     });
-    gameState.current.word = word;
-    gameState.current.words = words;
+    gameState.current.currentWord = currentWord;
+    gameState.current.guessedWords = guessedWords;
     gameState.current.secretWords = secretWords;
 
     React.useEffect(() => {
@@ -43,23 +42,22 @@ export function App() {
                     console.log("Cancelled");
                     return;
                 }
-                const {word, words, secretWords, foundSecretWords, guesses} = gameState.current;
-                if (event.key === "Enter" && word.length === 5 && ALL_WORDS_SET.has(word)) {
-                    gameState.current.guesses++;
-                    let found = secretWords.indexOf(word);
+                const {currentWord, guessedWords, secretWords, foundSecretWords} = gameState.current;
+                if (event.key === "Enter" && currentWord.length === 5 && ALL_WORDS_SET.has(currentWord)) {
+                    let found = secretWords.indexOf(currentWord);
                     if (found !== -1) {
+                        const nextWord = getNextWord([...guessedWords, ...secretWords, ...foundSecretWords.keys()]);
+                        foundSecretWords.set(currentWord, guessedWords.length + 1);
+                        gameState.current.boards.set(nextWord, guessedWords.length + 1);
                         setCleared(cleared => cleared + 1);
-                        const nextWord = getNextWord([...words, ...secretWords, ...foundSecretWords.keys()]);
-                        foundSecretWords.set(word, guesses + 1);
-                        gameState.current.boards.set(nextWord, guesses + 1);
                         setSecretWords([...secretWords, nextWord]);
                     }
-                    setWords(words => [...words, word]);
-                    setWord("");
+                    setGuessedWords(words => [...words, currentWord]);
+                    setCurrentWord("");
                 } else if (event.key === "Backspace") {
-                    setWord(word => word.slice(0, -1));
-                } else if (event.key.match(/^\w$/) && word.length < 5) {
-                    setWord(word => word + event.key.toUpperCase());
+                    setCurrentWord(word => word.slice(0, -1));
+                } else if (event.key.match(/^\w$/) && currentWord.length < 5) {
+                    setCurrentWord(word => word + event.key.toUpperCase());
                 }
             };
             window.addEventListener("keydown", listener);
@@ -67,16 +65,16 @@ export function App() {
                 window.removeEventListener("keydown", listener);
             };
         }
-    }, [gameState, setSecretWords, setCleared, setWords, setWord, isGameOver]);
+    }, [gameState, setSecretWords, setCleared, setGuessedWords, setCurrentWord, isGameOver]);
 
-    const wordIsValid = word.length !== 5 || ALL_WORDS_SET.has(word);
+    const wordIsValid = currentWord.length !== 5 || ALL_WORDS_SET.has(currentWord);
 
     const endGame = React.useCallback(() => setIsGameOver(true), [setIsGameOver]);
 
     return <div className={`
         app
-        app-${theme}
-        app-keyboard-${keyboardLayout}
+        app-${Theme[theme].toLowerCase()}
+        app-keyboard-${KeyboardLayout[keyboardLayout].toLowerCase()}
         app-font-${FontSize[fontSize].toLowerCase()}
         app-animation-${AnimationSpeed[animationSpeed].toLowerCase()}
     `}>
@@ -104,8 +102,8 @@ export function App() {
                 return <Board
                     key={secretWord}
                     secretWord={secretWord}
-                    currentGuess={word}
-                    guesses={words}
+                    currentGuess={currentWord}
+                    guesses={guessedWords}
                     guessIsValid={wordIsValid}
                     complete={gameState.current.foundSecretWords.get(secretWord) ?? -1}
                     started={gameState.current.boards.get(secretWord)!}

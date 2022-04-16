@@ -97,7 +97,11 @@ export function grade(guess: string, answer: string): Five<LetterGrade> {
     return grades;
 }
 
-export type KeyboardLayout = "qwerty" | "dvorak" | "colemak";
+export enum KeyboardLayout {
+    QWERTY,
+    DVORAK,
+    COLEMAK,
+}
 
 export enum FontSize {
     SMALL,
@@ -111,4 +115,87 @@ export enum AnimationSpeed {
     SLOW,
     MEDIUM,
     FAST,
+}
+
+export enum Theme {
+    LIGHT,
+    DARK,
+}
+
+export function members(enum_: Object): string[] {
+    return Object.values(enum_).filter(k => typeof k === "string");
+}
+
+export interface Settings {
+    keyboardLayout: KeyboardLayout;
+    fontSize: FontSize;
+    animationSpeed: AnimationSpeed;
+    theme: Theme;
+}
+
+export function loadSettingsOrDefault(): Settings {
+    const settings = localStorage.settings;
+    try {
+        return JSON.parse(settings!);
+    } catch {
+        return {
+            keyboardLayout: KeyboardLayout.QWERTY,
+            fontSize: FontSize.MEDIUM,
+            animationSpeed: AnimationSpeed.MEDIUM,
+            theme: Theme.DARK,
+        };
+    }
+}
+export interface GameState {
+    guessedWords: string[];
+    secretWords: string[];
+    foundSecretWords: Map<string, number>;
+    boards: Map<string, number>;
+}
+
+export function loadGameOrGenerate(): GameState {
+    const game = localStorage.game;
+    try {
+        return JSON.parse(game!);
+    } catch {
+        const secretWords = sampleStarterWords();
+        return {
+            guessedWords: [],
+            secretWords,
+            foundSecretWords: new Map(),
+            boards: new Map(secretWords.map(secretWord => [secretWord, 0])),
+        };
+    }
+}
+
+export function validateLocalStorage(): void {
+    const settings = loadSettingsOrDefault();
+    if (!(settings.keyboardLayout in KeyboardLayout)) {
+        settings.keyboardLayout = KeyboardLayout.QWERTY;
+    }
+    if (!(settings.fontSize in FontSize)) {
+        settings.fontSize = FontSize.MEDIUM;
+    }
+    if (!(settings.animationSpeed in AnimationSpeed)) {
+        settings.animationSpeed = AnimationSpeed.MEDIUM;
+    }
+    if (!(settings.theme in Theme)) {
+        settings.theme = Theme.DARK;
+    }
+    localStorage.settings = JSON.stringify(settings);
+    const gameState = loadGameOrGenerate();
+    if (
+        !gameState.guessedWords
+        || !gameState.secretWords
+        || !gameState.foundSecretWords
+        || gameState.secretWords.length - gameState.foundSecretWords.size !== 64
+        || !gameState.boards
+        || gameState.boards.size !== gameState.secretWords.length
+    ) {
+        localStorage.removeItem("game");
+    }
+}
+
+export function toTitleCase(s: string): string {
+    return s.replace("_", " ").replace(/([A-Z])([A-Z]*)/g, (match, p1, p2) => `${p1}${p2.toLowerCase()}`);
 }
