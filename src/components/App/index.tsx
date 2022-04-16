@@ -39,6 +39,10 @@ export function App() {
     React.useEffect(() => {
         if (!isGameOver) {
             const listener = (event: KeyboardEvent) => {
+                if (document.body.classList.contains("modal-active")) {
+                    console.log("Cancelled");
+                    return;
+                }
                 const {word, words, secretWords, foundSecretWords, guesses} = gameState.current;
                 if (event.key === "Enter" && word.length === 5 && ALL_WORDS_SET.has(word)) {
                     gameState.current.guesses++;

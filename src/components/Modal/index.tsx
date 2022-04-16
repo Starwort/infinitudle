@@ -20,9 +20,9 @@ interface ModalProps {
 export function Modal({title, children, open, onClose, theme}: ModalProps) {
     React.useEffect(() => {
         if (open) {
-            document.body.classList.add("noscroll");
+            document.body.classList.add("modal-active");
         } else {
-            document.body.classList.remove("noscroll");
+            document.body.classList.remove("modal-active");
         }
     }, [open]);
     return <div className={"modal-container" + (open ? "" : " inactive")}>
