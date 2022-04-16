@@ -21,20 +21,25 @@ export function Modal({title, children, open, onClose, theme}: ModalProps) {
     React.useEffect(() => {
         if (open) {
             document.body.classList.add("modal-active");
-            const listener = (event: KeyboardEvent) => {
-                if (event.key === "Escape") {
-                    onClose();
-                }
-            };
-            document.addEventListener("keydown", listener);
-            return () => {
-                document.removeEventListener("keydown", listener);
-            };
         } else {
             document.body.classList.remove("modal-active");
         }
+    }, [open]);
+    React.useEffect(() => {
+        if (!open) {
+            return;
+        }
+        const listener = (event: KeyboardEvent) => {
+            if (event.key === "Escape") {
+                onClose();
+            }
+        };
+        document.addEventListener("keydown", listener);
+        return () => {
+            document.removeEventListener("keydown", listener);
+        };
     }, [open, onClose]);
-    return <div className={"modal-container" + (open ? "" : " inactive")}>
+    return <div className={open ? "" : "modal-inactive"}>
         <div className="modal-scrim" onClick={onClose} />
         <div className="modal">
             <div className="modal-content">
