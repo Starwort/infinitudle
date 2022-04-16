@@ -30,22 +30,22 @@
 }
 
 @for $boards from 1 to 16 {
-    @media (min-width: (490px * $boards)) {
+    @media (min-width: (520px * $boards)) {
         .app-font-extra_large .boards {
             grid-template-columns: repeat($boards, 1fr);
         }
     }
-    @media (min-width: (340px * $boards)) {
+    @media (min-width: (360px * $boards)) {
         .app-font-large .boards {
             grid-template-columns: repeat($boards, 1fr);
         }
     }
-    @media (min-width: (270px * $boards)) {
+    @media (min-width: (280px * $boards)) {
         .app-font-medium .boards {
             grid-template-columns: repeat($boards, 1fr);
         }
     }
-    @media (min-width: (190px * $boards)) {
+    @media (min-width: (200px * $boards)) {
         .app-font-small .boards {
             grid-template-columns: repeat($boards, 1fr);
         }

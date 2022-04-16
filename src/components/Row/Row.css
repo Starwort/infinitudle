@@ -8,6 +8,8 @@
     width: 1.5em;
     height: 1.5em;
     border: 1px solid var(--app-ui-border);
+    border-radius: 0.25em;
+    margin: 0.05em;
     text-align: center;
     text-transform: capitalize;
     font-weight: bold;
