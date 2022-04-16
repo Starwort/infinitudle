@@ -123,3 +123,24 @@ a {
 .app-animation-fast {
     --app-animation-timing: 0.25s;
 }
+
+.game-over-actions {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.text-button {
+    width: 100%;
+    padding: 0.5em;
+    font-size: 1.25em;
+    font-weight: bold;
+    color: var(--app-ui-text);
+    border: 1px solid var(--app-ui-border);
+    border-radius: 0.25em;
+    background-color: transparent;
+    margin: 0.5em;
+}
+.text-button:hover {
+    background-color: var(--app-ui-highlight);
+}

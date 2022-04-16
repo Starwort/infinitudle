@@ -13,8 +13,8 @@ export function App() {
     validateLocalStorage();
     const loadedGameState = loadGameOrGenerate();
     const loadedSettings = loadSettingsOrDefault();
-    const [guessedWords, setGuessedWords] = React.useState(loadedGameState.guessedWords);
     const [currentWord, setCurrentWord] = React.useState("");
+    const [guessedWords, setGuessedWords] = React.useState(loadedGameState.guessedWords);
     const [secretWords, setSecretWords] = React.useState(loadedGameState.secretWords);
     const [theme, setTheme] = React.useState<Theme>(loadedSettings.theme);
     const [fontSize, setFontSize] = React.useState(loadedSettings.fontSize);
@@ -85,6 +85,17 @@ export function App() {
 
     const cleared = gameState.current.foundSecretWords.size;
 
+    const startNewGame = React.useCallback(() => {
+        localStorage.removeItem("game");
+        const newGameState = loadGameOrGenerate();
+        gameState.current = {...newGameState, currentWord: ""};
+        setIsGameOver(false);
+        setGameOverModalOpen(false);
+        setCurrentWord("");
+        setGuessedWords(gameState.current.guessedWords);
+        setSecretWords(gameState.current.secretWords);
+    }, []);
+
     return <div className={`
         app
         app-${Theme[theme].toLowerCase()}
@@ -95,6 +106,7 @@ export function App() {
         <div className="app-header">
             <div className="app-header-content">
                 <h1>Infinitudle</h1>
+                <button className="text-button" style={{width: 'unset'}} onClick={startNewGame}>New Game</button>
                 <div className="padding" />
                 <h2>Boards cleared: {cleared}</h2>
                 <IconButton
@@ -168,15 +180,17 @@ export function App() {
             title="Game Over"
         >
             {cleared > 100 && <>Well done!<br /></>}
-            You were able to clear {cleared} boards!
-            <hr />
-            <button onClick={() => {
-                navigator.clipboard.writeText(
-                    `Infinitudle - ${cleared} boards cleared:\n\n` +
-                    [...gameState.current.foundSecretWords.keys()].join("\n") +
-                    "\n\n" + window.location.href
-                );
-            }}>Copy results</button>
+            You cleared {cleared} boards!
+            <div className="game-over-actions">
+                <button className="text-button" onClick={() => {
+                    navigator.clipboard.writeText(
+                        `Infinitudle - ${cleared} boards cleared:\n\n` +
+                        [...gameState.current.foundSecretWords.keys()].join("\n") +
+                        "\n\n" + window.location.href
+                    );
+                }}>Copy results</button>
+                <button className="text-button" onClick={startNewGame}>New Game</button>
+            </div>
         </Modal>
     </div>;
 }
