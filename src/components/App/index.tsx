@@ -55,6 +55,8 @@ export function App() {
                     setCurrentWord(word => word.slice(0, -1));
                 } else if (event.key.match(/^\w$/) && currentWord.length < 5) {
                     setCurrentWord(word => word + event.key.toUpperCase());
+                } else if (event.key === "Escape") {
+                    setCurrentWord("");
                 }
             };
             window.addEventListener("keydown", listener);
