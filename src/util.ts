@@ -157,8 +157,8 @@ export function loadGameOrGenerate(): GameState {
     const game = localStorage.game;
     try {
         const gameState = JSON.parse(game!);
-        gameState.foundSecretWords = new Map(gameState.foundSecretWords);
-        gameState.boards = new Map(gameState.boards);
+        gameState.foundSecretWords = new Map(Object.entries(gameState.foundSecretWords));
+        gameState.boards = new Map(Object.entries(gameState.boards));
         return gameState;
     } catch {
         const secretWords = sampleStarterWords();
