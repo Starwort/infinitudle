@@ -114,7 +114,7 @@ export function App() {
             onClose={() => setSettingsOpen(false)}
             theme={theme}
             setTheme={setTheme}
-            keyboardLayout={"qwerty"}
+            keyboardLayout={keyboardLayout}
             setKeyboardLayout={setKeyboardLayout}
             animationSpeed={animationSpeed}
             setAnimationSpeed={setAnimationSpeed}
