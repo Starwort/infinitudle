@@ -66,6 +66,19 @@ export function App() {
         }
     }, [gameState, setSecretWords, setGuessedWords, setCurrentWord, isGameOver]);
 
+    React.useEffect(() => {
+        localStorage.settings = JSON.stringify({
+            theme,
+            fontSize,
+            animationSpeed,
+            keyboardLayout,
+        });
+    }, [theme, fontSize, animationSpeed, keyboardLayout]);
+
+    React.useEffect(() => {
+        localStorage.game = JSON.stringify(gameState.current);
+    }, [guessedWords]);
+
     const wordIsValid = currentWord.length !== 5 || ALL_WORDS_SET.has(currentWord);
 
     const endGame = React.useCallback(() => setGameOverModalOpen(true), [setGameOverModalOpen]);

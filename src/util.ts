@@ -156,7 +156,10 @@ export interface GameState {
 export function loadGameOrGenerate(): GameState {
     const game = localStorage.game;
     try {
-        return JSON.parse(game!);
+        const gameState = JSON.parse(game!);
+        gameState.foundSecretWords = new Map(gameState.foundSecretWords);
+        gameState.boards = new Map(gameState.boards);
+        return gameState;
     } catch {
         const secretWords = sampleStarterWords();
         return {
