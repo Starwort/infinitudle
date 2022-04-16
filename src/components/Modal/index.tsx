@@ -25,7 +25,7 @@ export function Modal({title, children, open, onClose, theme}: ModalProps) {
             document.body.classList.remove("noscroll");
         }
     }, [open]);
-    const modalTree = <>
+    return <div className={"modal-container" + (open ? "" : " inactive")}>
         <div className="modal-scrim" onClick={onClose} />
         <div className="modal">
             <div className="modal-content">
@@ -42,6 +42,5 @@ export function Modal({title, children, open, onClose, theme}: ModalProps) {
                 {children}
             </div>
         </div>
-    </>;
-    return <>{open && modalTree}</>;
+    </div>;
 };

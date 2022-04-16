@@ -39,7 +39,7 @@ export function Board({guesses, secretWord, currentGuess, guessIsValid, complete
         rows.push(<Row key={i} guess="" />);
     }
     const letters = new Map([
-        ...'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+        ..."ABCDEFGHIJKLMNOPQRSTUVWXYZ"
     ].map<[string, LetterGrade]>((i) => [i, LetterGrade.UNGRADED]));
     for (let i = started; i < guessesEnd; i++) {
         for (let [letter, grade] of zip(guesses[i], grades[i])) {
