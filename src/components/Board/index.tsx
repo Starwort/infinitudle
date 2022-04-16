@@ -48,6 +48,9 @@ export function Board({guesses, secretWord, currentGuess, guessIsValid, complete
                 || (
                     grade === LetterGrade.YELLOW
                     && letters.get(letter) !== LetterGrade.GREEN
+                ) || (
+                    grade === LetterGrade.BLACK
+                    && letters.get(letter) === LetterGrade.UNGRADED
                 )
             ) {
                 letters.set(letter, grade);
