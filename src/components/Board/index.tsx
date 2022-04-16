@@ -32,7 +32,7 @@ export function Board({guesses, secretWord, currentGuess, guessIsValid, complete
     const warn = nGuesses >= 68;
     const grades = guesses.map(guess => grade(guess, secretWord));
     const rows = [
-        ...guesses.slice(started, guessesEnd).map((guess, index) => <Row key={index} guess={guess} grade={grades[index]} />),
+        ...guesses.slice(started, guessesEnd).map((guess, index) => <Row key={index} guess={guess} grade={grades[index + started]} />),
         <Row key={nGuesses} guess={currentGuess} invalid={!guessIsValid} />,
     ];
     for (let i = nGuesses + 1; i < 69; i++) {
@@ -44,8 +44,11 @@ export function Board({guesses, secretWord, currentGuess, guessIsValid, complete
     for (let i = started; i < guessesEnd; i++) {
         for (let [letter, grade] of zip(guesses[i], grades[i])) {
             if (
-                letters.get(letter) === LetterGrade.UNGRADED
-                || letters.get(letter) === LetterGrade.YELLOW
+                grade === LetterGrade.GREEN
+                || (
+                    grade === LetterGrade.YELLOW
+                    && letters.get(letter) !== LetterGrade.GREEN
+                )
             ) {
                 letters.set(letter, grade);
             }

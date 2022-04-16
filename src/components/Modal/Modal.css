@@ -17,13 +17,27 @@ body.noscroll {
 
 .modal {
     position: fixed;
-    top: calc(10vh - 1px);
-    left: 33%;
-    width: 33%;
     background: var(--app-ui-raised-surface);
     z-index: 200;
     border: 1px solid var(--app-ui-border);
     border-radius: 1em;
+    margin: auto;
+}
+
+@media (min-width: 937.5px) {
+    .modal {
+        top: calc(10vh - 1px);
+        left: calc(50% - 375px);
+        width: 750px;
+    }
+}
+
+@media (max-width: 937.5px) {
+    .modal {
+        top: calc(10vh - 1px);
+        left: calc(10vw - 1px);
+        width: 80vw;
+    }
 }
 
 .modal-content {
@@ -32,7 +46,7 @@ body.noscroll {
 
 .modal-header {
     display: grid;
-    grid-template-columns: 3em 1fr 3em;
+    grid-template-columns: 5rem 1fr 5rem;
     grid-template-areas: "_ title close";
     padding: 0.5em;
     margin-top: -1em;

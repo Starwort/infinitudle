@@ -13,6 +13,10 @@
     margin: auto;
     height: 4em;
     max-width: 1200px;
+
+    h1 {
+        padding-left: 0.5em;
+    }
 }
 
 .padding {
@@ -26,22 +30,22 @@
 }
 
 @for $boards from 1 to 16 {
-    @media (min-width: (480px * $boards)) {
+    @media (min-width: (490px * $boards)) {
         .app-font-extra_large .boards {
             grid-template-columns: repeat($boards, 1fr);
         }
     }
-    @media (min-width: (330px * $boards)) {
+    @media (min-width: (340px * $boards)) {
         .app-font-large .boards {
             grid-template-columns: repeat($boards, 1fr);
         }
     }
-    @media (min-width: (255px * $boards)) {
+    @media (min-width: (270px * $boards)) {
         .app-font-medium .boards {
             grid-template-columns: repeat($boards, 1fr);
         }
     }
-    @media (min-width: (180px * $boards)) {
+    @media (min-width: (190px * $boards)) {
         .app-font-small .boards {
             grid-template-columns: repeat($boards, 1fr);
         }
@@ -61,11 +65,11 @@ a {
     --app-ui-highlight: rgba(255, 255, 255, 0.1);
     --app-guess-invalid: red;
     --app-guess-black: #242424;
+    --app-guess-black-text: #7f7f7f;
     --app-guess-yellow: #7f5f00;
     --app-guess-green: #007f00;
     --app-danger-red: #7f0000;
     --app-danger-yellow: #7f7f00;
-    --app-animation-timing: 0.5s;
 }
 
 .app-light {
@@ -75,10 +79,10 @@ a {
     --app-ui-border: rgba(0, 0, 0, 0.5);
     --app-ui-highlight: rgba(0, 0, 0, 0.1);
     --app-guess-invalid: #7f0000;
-    --app-guess-black: #7f7f7f;
+    --app-guess-black: #000000;
+    --app-guess-black-text: #7f7f7f;
     --app-guess-yellow: gold;
     --app-guess-green: green;
-    --app-animation-timing: 0.5s;
     --app-danger-red: #ff0000;
     --app-danger-yellow: #ffff00;
 }
@@ -102,4 +106,20 @@ a {
 
 .app-font-extra_large {
     font-size: 30px;
+}
+
+.app-animation-none {
+    --app-animation-timing: 0s;
+}
+
+.app-animation-slow {
+    --app-animation-timing: 1s;
+}
+
+.app-animation-medium {
+    --app-animation-timing: 0.5s;
+}
+
+.app-animation-fast {
+    --app-animation-timing: 0.25s;
 }

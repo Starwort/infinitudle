@@ -15,6 +15,7 @@
 
 .black {
     background-color: var(--app-guess-black);
+    color: var(--app-guess-black-text);
 }
 
 .yellow {
@@ -45,27 +46,32 @@
 
 .row :nth-child(1).cell {
     animation-delay: 0s;
-    transition: background-color 0s calc(var(--app-animation-timing) * 0.5);
+    transition: background-color 0s calc(var(--app-animation-timing) * 0.5),
+        color 0s calc(var(--app-animation-timing) * 0.5);
 }
 
 .row :nth-child(2).cell {
     animation-delay: var(--app-animation-timing);
-    transition: background-color 0s calc(var(--app-animation-timing) * 1.5);
+    transition: background-color 0s calc(var(--app-animation-timing) * 1.5),
+        color 0s calc(var(--app-animation-timing) * 1.5);
 }
 
 .row :nth-child(3).cell {
     animation-delay: calc(var(--app-animation-timing) * 2);
-    transition: background-color 0s calc(var(--app-animation-timing) * 2.5);
+    transition: background-color 0s calc(var(--app-animation-timing) * 2.5),
+        color 0s calc(var(--app-animation-timing) * 2.5);
 }
 
 .row :nth-child(4).cell {
     animation-delay: calc(var(--app-animation-timing) * 3);
-    transition: background-color 0s calc(var(--app-animation-timing) * 3.5);
+    transition: background-color 0s calc(var(--app-animation-timing) * 3.5),
+        color 0s calc(var(--app-animation-timing) * 3.5);
 }
 
 .row :nth-child(5).cell {
     animation-delay: calc(var(--app-animation-timing) * 4);
-    transition: background-color 0s calc(var(--app-animation-timing) * 4.5);
+    transition: background-color 0s calc(var(--app-animation-timing) * 4.5),
+        color 0s calc(var(--app-animation-timing) * 4.5);
 }
 
 @keyframes flip {

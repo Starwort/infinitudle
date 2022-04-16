@@ -6,7 +6,7 @@
     margin: 1em auto;
     transition: max-height 0s ease-in-out calc(8 * var(--app-animation-timing)),
         order 0s ease-in-out calc(8 * var(--app-animation-timing)),
-        scale calc(2 * var(--app-animation-timing)) ease-in-out
+        transform calc(2 * var(--app-animation-timing)) ease-in-out
             calc(5 * var(--app-animation-timing));
 }
 
@@ -32,7 +32,17 @@
 .complete {
     order: 100;
     max-height: 0;
-    scale: 0;
+    transform: scale(0);
+}
+
+.game-over .board {
+    transition: transform calc(2 * var(--app-animation-timing)) ease-in-out;
+}
+
+.game-over .complete {
+    order: -100;
+    max-height: initial;
+    transform: initial;
 }
 
 .keyboard {
@@ -40,9 +50,13 @@
     margin: auto;
     display: grid;
     grid-template-areas:
-        "q q q q w w w w e e e e r r r r t t t t y y y y u u u u i i i i o o o o p p p p"
-        "A a a a a s s s s d d d d f f f f g g g g h h h h j j j j k k k k l l l l C C C"
-        "B B B z z z z x x x x c c c c v v v v b b b b n n n n m m m m D D D D D D D D D";
+        "q q q q w w w w e e e e r r r r t t t t y y y y u u u u i i i i o o o o p p p p G G G"
+        "A a a a a s s s s d d d d f f f f g g g g h h h h j j j j k k k k l l l l C C C C H H"
+        "B B B z z z z x x x x c c c c v v v v b b b b n n n n m m m m D D D D E E E E F F F F";
+}
+
+.keyboard .cell {
+    transition: all var(--app-animation-timing) ease-in-out;
 }
 
 @each $char
@@ -50,5 +64,77 @@
 {
     .app-keyboard-qwerty .keyboard-#{$char} {
         grid-area: $char;
+    }
+}
+
+@each $key,
+    $area
+        in (
+            p: r,
+            y: t,
+            f: y,
+            g: u,
+            c: i,
+            r: o,
+            l: p,
+            a: a,
+            o: s,
+            e: d,
+            u: f,
+            i: g,
+            d: h,
+            h: j,
+            t: k,
+            n: l,
+            s: C,
+            q: x,
+            j: c,
+            k: v,
+            x: b,
+            b: n,
+            m: m,
+            w: D,
+            v: E,
+            z: F
+        )
+{
+    .app-keyboard-dvorak .keyboard-#{$key} {
+        grid-area: #{$area};
+    }
+}
+
+@each $key,
+    $area
+        in (
+            q: q,
+            w: w,
+            f: e,
+            p: r,
+            g: t,
+            j: y,
+            l: u,
+            u: i,
+            y: o,
+            a: a,
+            r: s,
+            s: d,
+            t: f,
+            d: g,
+            h: h,
+            n: j,
+            e: k,
+            i: l,
+            o: C,
+            z: z,
+            x: x,
+            c: c,
+            v: v,
+            b: b,
+            k: n,
+            m: m
+        )
+{
+    .app-keyboard-colemak .keyboard-#{$key} {
+        grid-area: #{$area};
     }
 }

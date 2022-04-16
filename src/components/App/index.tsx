@@ -1,7 +1,7 @@
 import React from "react";
 import {Board, IconButton, SettingsModal} from "..";
 import {ALL_WORDS_SET} from "../../consts/allWords";
-import {FontSize, getNextWord, sampleStarterWords} from "../../util";
+import {AnimationSpeed, FontSize, getNextWord, KeyboardLayout, sampleStarterWords} from "../../util";
 import {Modal} from "../Modal";
 import aboutIconBlack from "./about_icon_black.svg";
 import aboutIconWhite from "./about_icon_white.svg";
@@ -19,9 +19,10 @@ export function App() {
     const [settingsOpen, setSettingsOpen] = React.useState(false);
     const [aboutOpen, setAboutOpen] = React.useState(false);
     const [fontSize, setFontSize] = React.useState(FontSize.MEDIUM);
+    const [animationSpeed, setAnimationSpeed] = React.useState(AnimationSpeed.MEDIUM);
     const [
         keyboardLayout, setKeyboardLayout
-    ] = React.useState<"qwerty">("qwerty");
+    ] = React.useState<KeyboardLayout>("qwerty");
 
     const gameState = React.useRef({
         word,
@@ -73,6 +74,7 @@ export function App() {
         app-${theme}
         app-keyboard-${keyboardLayout}
         app-font-${FontSize[fontSize].toLowerCase()}
+        app-animation-${AnimationSpeed[animationSpeed].toLowerCase()}
     `}>
         <div className="app-header">
             <div className="app-header-content">
@@ -93,7 +95,7 @@ export function App() {
                 />
             </div>
         </div>
-        <div className="boards">
+        <div className={"boards" + (isGameOver ? " game-over" : "")}>
             {secretWords.map((secretWord) => {
                 return <Board
                     key={secretWord}
@@ -114,6 +116,8 @@ export function App() {
             setTheme={setTheme}
             keyboardLayout={"qwerty"}
             setKeyboardLayout={setKeyboardLayout}
+            animationSpeed={animationSpeed}
+            setAnimationSpeed={setAnimationSpeed}
             fontSize={fontSize}
             setFontSize={setFontSize}
         />

@@ -1,8 +1,16 @@
 .settings-content {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    width: 50%;
+    grid-template-columns: 2fr 1fr 1fr;
     margin: auto;
     text-align: right;
     gap: 0.2em;
+}
+
+.settings-content label {
+    grid-column: 1;
+}
+
+.settings-content input,
+.settings-content select {
+    grid-column: 2;
 }

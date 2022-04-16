@@ -97,11 +97,18 @@ export function grade(guess: string, answer: string): Five<LetterGrade> {
     return grades;
 }
 
-export type KeyboardLayout = "qwerty";
+export type KeyboardLayout = "qwerty" | "dvorak" | "colemak";
 
 export enum FontSize {
     SMALL,
     MEDIUM,
     LARGE,
     EXTRA_LARGE,
+}
+
+export enum AnimationSpeed {
+    NONE,
+    SLOW,
+    MEDIUM,
+    FAST,
 }
